@@ -60,7 +60,7 @@ def get_api_answer(current_timestamp):
     params = {'from_date': timestamp}
     try:
         response = requests.get(ENDPOINT, headers=HEADERS, params=params)
-    except Exception as error:
+    except requests.RequestException as error:
         logging.error(f'Ошибка при запросе к эндпоинту: {error}')
     if response.status_code != HTTPStatus.OK:
         logging.error(f'Ошибка при запросе к эндпоинту: {response.reason}')
@@ -101,7 +101,7 @@ def parse_status(homework):
 def check_tokens():
     """Проверяет доступность переменных окружения."""
     result = True
-    tokens_to_check = ['TELEGRAM_TOKEN', 'TELEGRAM_CHAT_ID', 'PRACTICUM_TOKEN']
+    tokens_to_check = ('TELEGRAM_TOKEN', 'TELEGRAM_CHAT_ID', 'PRACTICUM_TOKEN')
     for token in tokens_to_check:
         if globals()[token] is None:
             result = False
